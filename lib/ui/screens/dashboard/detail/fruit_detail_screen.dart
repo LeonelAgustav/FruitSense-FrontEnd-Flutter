@@ -16,8 +16,9 @@ class FruitDetailScreen extends StatelessWidget {
 
     String expiryInfo = "-";
     if (fruitItem.expiryDate > 0) {
-      final diff = DateTime.fromMillisecondsSinceEpoch(fruitItem.expiryDate)
-          .difference(DateTime.now());
+      final diff = DateTime.fromMillisecondsSinceEpoch(
+        fruitItem.expiryDate,
+      ).difference(DateTime.now());
       final days = diff.inDays;
 
       if (days < 0) {
@@ -47,7 +48,10 @@ class FruitDetailScreen extends StatelessWidget {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [Colors.black.withOpacity(0.6), Colors.transparent],
+                      colors: [
+                        Colors.black.withValues(alpha: 0.6),
+                        Colors.transparent,
+                      ],
                     ),
                   ),
                 ),
@@ -55,7 +59,7 @@ class FruitDetailScreen extends StatelessWidget {
                   top: 40,
                   left: 16,
                   child: CircleAvatar(
-                    backgroundColor: Colors.black.withOpacity(0.4),
+                    backgroundColor: Colors.black.withValues(alpha: 0.4),
                     child: IconButton(
                       icon: const Icon(Icons.arrow_back, color: Colors.white),
                       onPressed: () => Navigator.pop(context),
@@ -66,16 +70,19 @@ class FruitDetailScreen extends StatelessWidget {
                   bottom: 16,
                   right: 16,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.greenDark,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
+                          color: Colors.black.withValues(alpha: 0.2),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
-                        )
+                        ),
                       ],
                     ),
                     child: Text(
@@ -113,7 +120,9 @@ class FruitDetailScreen extends StatelessWidget {
                             Text(
                               "Ditambahkan: $addedDateStr",
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurfaceVariant,
                                 fontSize: 14,
                               ),
                             ),
@@ -131,9 +140,9 @@ class FruitDetailScreen extends StatelessWidget {
                               color: fruitItem.freshness > 50
                                   ? AppColors.greenDark
                                   : AppColors.error,
-                              backgroundColor: Theme.of(context)
-                                  .colorScheme
-                                  .surfaceContainerHighest,
+                              backgroundColor: Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerHighest,
                               strokeWidth: 6,
                             ),
                           ),
@@ -163,14 +172,18 @@ class FruitDetailScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         children: [
-                          Icon(Icons.info_outline,
-                              color: Theme.of(context).primaryColor),
+                          Icon(
+                            Icons.info_outline,
+                            color: Theme.of(context).primaryColor,
+                          ),
                           const SizedBox(width: 12),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text("Estimasi Kadaluarsa",
-                                  style: AppTextStyles.labelSmall),
+                              Text(
+                                "Estimasi Kadaluarsa",
+                                style: AppTextStyles.labelSmall,
+                              ),
                               Text(
                                 expiryInfo,
                                 style: AppTextStyles.bodyLarge.copyWith(
@@ -198,8 +211,10 @@ class FruitDetailScreen extends StatelessWidget {
                   // PERBAIKAN: Tambahkan 'child:'
                   Card(
                     elevation: 0,
-                    color: AppColors.greenDark.withOpacity(0.05),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    color: AppColors.greenDark.withValues(alpha: 0.05),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -207,8 +222,11 @@ class FruitDetailScreen extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              const Icon(Icons.auto_awesome,
-                                  color: AppColors.greenDark, size: 20),
+                              const Icon(
+                                Icons.auto_awesome,
+                                color: AppColors.greenDark,
+                                size: 20,
+                              ),
                               const SizedBox(width: 8),
                               const Text(
                                 "Kondisi Fisik",
@@ -231,11 +249,12 @@ class FruitDetailScreen extends StatelessWidget {
                   // PERBAIKAN: Tambahkan 'child:'
                   Card(
                     elevation: 0,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondaryContainer
-                        .withOpacity(0.3),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.secondaryContainer.withValues(alpha: 0.3),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Column(
@@ -245,9 +264,9 @@ class FruitDetailScreen extends StatelessWidget {
                             "Saran Penyimpanan",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSecondaryContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSecondaryContainer,
                             ),
                           ),
                           const SizedBox(height: 8),
@@ -270,7 +289,7 @@ class FruitDetailScreen extends StatelessWidget {
   Widget _buildHeaderImage(String? uri) {
     if (uri == null || uri.isEmpty) {
       return Container(
-        color: AppColors.greenDark.withOpacity(0.2),
+        color: AppColors.greenDark.withValues(alpha: 0.2),
         child: const Center(
           child: Icon(Icons.auto_awesome, size: 80, color: AppColors.greenDark),
         ),

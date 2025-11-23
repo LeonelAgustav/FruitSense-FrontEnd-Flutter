@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import '../core/utils/notification_helper.dart';
@@ -11,7 +13,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class FcmService {
-  static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  static final FirebaseMessaging _firebaseMessaging =
+      FirebaseMessaging.instance;
   static final NotificationHelper _notificationHelper = NotificationHelper();
 
   // Inisialisasi FCM
@@ -25,7 +28,7 @@ class FcmService {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
-      
+
       // 2. Ambil Token FCM
       String? token = await _firebaseMessaging.getToken();
       if (token != null) {
@@ -40,19 +43,22 @@ class FcmService {
         print('Message data: ${message.data}');
 
         if (message.notification != null) {
-          print('Message also contained a notification: ${message.notification}');
-          
+          print(
+            'Message also contained a notification: ${message.notification}',
+          );
+
           // Tampilkan notifikasi lokal custom
           _notificationHelper.showExpiryNotification(
             message.notification!.title ?? "FruitSense",
-            0
+            0,
           );
         }
       });
 
       // 4. Setup Handler Background
-      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-      
+      FirebaseMessaging.onBackgroundMessage(
+        _firebaseMessagingBackgroundHandler,
+      );
     } else {
       print('User declined or has not accepted permission');
     }

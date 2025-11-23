@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -24,7 +26,7 @@ void main() {
     if (parts.length >= 2) {
       final key = parts[0].trim();
       // Menggabungkan kembali value jika ada tanda '=' di dalamnya (misal base64)
-      final value = parts.sublist(1).join('=').trim(); 
+      final value = parts.sublist(1).join('=').trim();
       envVars[key] = value;
     }
   }
@@ -35,7 +37,9 @@ void main() {
   final appId = envVars['FIREBASE_APP_ID'];
 
   if (apiKey == null || projectId == null || appId == null) {
-    print('Error: Pastikan FIREBASE_API_KEY, FIREBASE_PROJECT_ID, dan FIREBASE_APP_ID ada di .env');
+    print(
+      'Error: Pastikan FIREBASE_API_KEY, FIREBASE_PROJECT_ID, dan FIREBASE_APP_ID ada di .env',
+    );
     exit(1);
   }
 
@@ -43,32 +47,27 @@ void main() {
   // Note: package_name diset sesuai request Anda, bisa juga ditaruh di .env jika mau dinamis
   final Map<String, dynamic> googleServicesJson = {
     "project_info": {
-      "project_number": "848546376772", // Bisa diambil dari .env jika perlu dinamis
+      "project_number":
+          "848546376772", // Bisa diambil dari .env jika perlu dinamis
       "project_id": projectId,
-      "storage_bucket": "$projectId.firebasestorage.app"
+      "storage_bucket": "$projectId.firebasestorage.app",
     },
     "client": [
       {
         "client_info": {
           "mobilesdk_app_id": appId,
-          "android_client_info": {
-            "package_name": "com.example.fruitsense"
-          }
+          "android_client_info": {"package_name": "com.example.fruitsense"},
         },
         "oauth_client": [],
         "api_key": [
-          {
-            "current_key": apiKey
-          }
+          {"current_key": apiKey},
         ],
         "services": {
-          "appinvite_service": {
-            "other_platform_oauth_client": []
-          }
-        }
-      }
+          "appinvite_service": {"other_platform_oauth_client": []},
+        },
+      },
     ],
-    "configuration_version": "1"
+    "configuration_version": "1",
   };
 
   // 6. Tulis ke file android/app/google-services.json
@@ -77,5 +76,7 @@ void main() {
 
   targetFile.writeAsStringSync(prettyJson);
 
-  print('✅ Berhasil membuat android/app/google-services.json dari konfigurasi .env');
+  print(
+    '✅ Berhasil membuat android/app/google-services.json dari konfigurasi .env',
+  );
 }

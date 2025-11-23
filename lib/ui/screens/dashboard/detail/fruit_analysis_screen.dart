@@ -45,7 +45,9 @@ class FruitAnalysisScreen extends StatelessWidget {
                     children: [
                       Text(
                         fruitItem.name,
-                        style: AppTextStyles.headlineBold.copyWith(fontSize: 20),
+                        style: AppTextStyles.headlineBold.copyWith(
+                          fontSize: 20,
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -70,7 +72,7 @@ class FruitAnalysisScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
                 side: BorderSide(
-                  color: Theme.of(context).dividerColor.withOpacity(0.5)
+                  color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
                 ),
               ),
               child: Padding(
@@ -78,8 +80,11 @@ class FruitAnalysisScreen extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.auto_awesome,
-                        color: AppColors.greenDark, size: 24),
+                    const Icon(
+                      Icons.auto_awesome,
+                      color: AppColors.greenDark,
+                      size: 24,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
@@ -102,7 +107,7 @@ class FruitAnalysisScreen extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
                 side: BorderSide(
-                  color: Theme.of(context).dividerColor.withOpacity(0.5)
+                  color: Theme.of(context).dividerColor.withValues(alpha: 0.5),
                 ),
               ),
               child: Padding(
@@ -110,8 +115,11 @@ class FruitAnalysisScreen extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(Icons.lightbulb_outline,
-                        color: Color(0xFFFFB300), size: 24),
+                    const Icon(
+                      Icons.lightbulb_outline,
+                      color: Color(0xFFFFB300),
+                      size: 24,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Text(
@@ -134,7 +142,9 @@ class FruitAnalysisScreen extends StatelessWidget {
               Card(
                 color: Theme.of(context).colorScheme.errorContainer,
                 elevation: 0,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
@@ -144,7 +154,7 @@ class FruitAnalysisScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ],
         ),
@@ -166,7 +176,8 @@ class FruitAnalysisScreen extends StatelessWidget {
   Widget _buildThumbnail(String? uri) {
     if (uri == null || uri.isEmpty) {
       return const Center(
-          child: Icon(Icons.auto_awesome, color: AppColors.greenDark));
+        child: Icon(Icons.auto_awesome, color: AppColors.greenDark),
+      );
     }
     if (uri.startsWith('http')) {
       return Image.network(uri, fit: BoxFit.cover);
@@ -188,10 +199,14 @@ class FruitAnalysisScreen extends StatelessWidget {
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.2),
+                color: Colors.white.withValues(alpha: 0.2),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.restaurant_menu, color: Colors.white, size: 20),
+              child: const Icon(
+                Icons.restaurant_menu,
+                color: Colors.white,
+                size: 20,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(

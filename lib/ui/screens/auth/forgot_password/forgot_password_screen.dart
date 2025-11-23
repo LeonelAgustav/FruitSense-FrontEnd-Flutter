@@ -13,7 +13,6 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  
   @override
   void initState() {
     super.initState();
@@ -49,16 +48,22 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 AppConstants.fruitsense,
                 width: 180,
                 height: 180,
-                errorBuilder: (context, error, stackTrace) => const Icon(Icons.eco, size: 100, color: AppColors.greenDark),
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.eco,
+                  size: 100,
+                  color: AppColors.greenDark,
+                ),
               ),
-              
+
               const SizedBox(height: 24),
 
               // Card Form
               Card(
                 elevation: 8,
-                shadowColor: Colors.black.withOpacity(0.2),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                shadowColor: Colors.black.withValues(alpha: 0.2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
                 color: theme.cardColor,
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
@@ -86,15 +91,24 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
 
                       // Email Input
                       TextField(
-                        onChanged: (value) => authProvider.setForgotEmail(value),
+                        onChanged: (value) =>
+                            authProvider.setForgotEmail(value),
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: "Email",
-                          prefixIcon: Icon(Icons.email, color: theme.colorScheme.onSurfaceVariant),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppColors.greenDark, width: 2),
+                            borderSide: const BorderSide(
+                              color: AppColors.greenDark,
+                              width: 2,
+                            ),
                           ),
                           errorText: authProvider.forgotEmailError,
                         ),
@@ -109,7 +123,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           onPressed: () {
                             if (authProvider.validateForgotPassword()) {
                               // Navigasi ke Input OTP
-                              Navigator.pushNamed(context, AppRoutes.EMAIL_VERIFICATION);
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.EMAIL_VERIFICATION,
+                              );
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -120,19 +137,24 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           ),
                           child: const Text(
                             "Kirim Kode",
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
 
                       const SizedBox(height: 16),
                       TextButton(
-                        onPressed: () => Navigator.pop(context), // Kembali ke Login
+                        onPressed: () =>
+                            Navigator.pop(context), // Kembali ke Login
                         child: Text(
                           "Kembali ke Login",
                           style: TextStyle(
                             color: theme.colorScheme.onSurfaceVariant,
-                            fontWeight: FontWeight.w600
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),

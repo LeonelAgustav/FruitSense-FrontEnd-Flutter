@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/app_colors.dart';
 // PERBAIKAN IMPORT: Karena dalam satu folder/level, langsung panggil nama file
-import 'profile_provider.dart'; 
+import 'profile_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -28,7 +28,9 @@ class SettingsScreen extends StatelessWidget {
           const Text(
             "Tampilan Aplikasi",
             style: TextStyle(
-              fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.greenDark
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColors.greenDark,
             ),
           ),
           const SizedBox(height: 16),
@@ -42,7 +44,7 @@ class SettingsScreen extends StatelessWidget {
             onTap: () => profileProvider.updateTheme('LIGHT'),
           ),
           const SizedBox(height: 12),
-          
+
           _buildThemeOption(
             context,
             title: "Mode Gelap",
@@ -75,26 +77,27 @@ class SettingsScreen extends StatelessWidget {
     required VoidCallback onTap,
   }) {
     final theme = Theme.of(context);
-    
+
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(16),
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.greenDark.withOpacity(0.1) : theme.cardColor,
+          color: isSelected
+              ? AppColors.greenDark.withValues(alpha: 0.1)
+              : theme.cardColor,
           border: Border.all(
-            color: isSelected ? AppColors.greenDark : theme.dividerColor.withOpacity(0.5),
-            width: isSelected ? 2 : 1
+            color: isSelected
+                ? AppColors.greenDark
+                : theme.dividerColor.withValues(alpha: 0.5),
+            width: isSelected ? 2 : 1,
           ),
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
           children: [
-            Icon(
-              icon, 
-              color: isSelected ? AppColors.greenDark : Colors.grey
-            ),
+            Icon(icon, color: isSelected ? AppColors.greenDark : Colors.grey),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -103,8 +106,12 @@ class SettingsScreen extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                      color: isSelected ? AppColors.greenDark : theme.colorScheme.onSurface
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                      color: isSelected
+                          ? AppColors.greenDark
+                          : theme.colorScheme.onSurface,
                     ),
                   ),
                   Text(

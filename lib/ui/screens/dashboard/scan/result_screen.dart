@@ -1,7 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // FIX: Import Provider
 import '../../../../core/theme/app_colors.dart';
 import '../../../../routes/app_routes.dart';
+import 'scan_provider.dart'; // FIX: Import ScanProvider
+import '../inventory/inventory_provider.dart'; // FIX: Import InventoryProvider
 
 class ResultScreen extends StatelessWidget {
   final String imagePath;
@@ -20,22 +23,20 @@ class ResultScreen extends StatelessWidget {
     final int freshness = resultData['freshness'];
     final String desc = resultData['desc'];
 
+    // FIX: Menggunakan context.watch agar tombol update state UI
+    final scanProvider = context.watch<ScanProvider>();
+
     return Scaffold(
       body: Stack(
         children: [
-          // 1. Header Image
           SizedBox(
             height: 400,
             width: double.infinity,
-            child: Image.file(
-              File(imagePath),
-              fit: BoxFit.cover,
-            ),
+            child: Image.file(File(imagePath), fit: BoxFit.cover),
           ),
-          // Overlay gradient
           Container(
             height: 400,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
@@ -54,9 +55,9 @@ class ResultScreen extends StatelessWidget {
                 onPressed: () {
                   // Kembali ke Dashboard (Scan Hub)
                   Navigator.pushNamedAndRemoveUntil(
-                    context, 
-                    AppRoutes.DASHBOARD, 
-                    (route) => false
+                    context,
+                    AppRoutes.DASHBOARD,
+                    (route) => false,
                   );
                 },
               ),
@@ -72,10 +73,16 @@ class ResultScreen extends StatelessWidget {
               return Container(
                 decoration: BoxDecoration(
                   color: Theme.of(context).scaffoldBackgroundColor,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(32),
+                  ),
                   boxShadow: [
-                    BoxShadow(color: Colors.black26, blurRadius: 10, offset: Offset(0, -2))
-                  ]
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      offset: Offset(0, -2),
+                    ),
+                  ],
                 ),
                 padding: const EdgeInsets.all(24),
                 child: ListView(
@@ -84,11 +91,12 @@ class ResultScreen extends StatelessWidget {
                     // Handle Bar
                     Center(
                       child: Container(
-                        width: 40, height: 4,
+                        width: 40,
+                        height: 4,
                         margin: const EdgeInsets.only(bottom: 24),
                         decoration: BoxDecoration(
                           color: Colors.grey[300],
-                          borderRadius: BorderRadius.circular(2)
+                          borderRadius: BorderRadius.circular(2),
                         ),
                       ),
                     ),
@@ -100,19 +108,23 @@ class ResultScreen extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Hasil Deteksi", style: TextStyle(color: Colors.grey)),
+                            const Text(
+                              "Hasil Deteksi",
+                              style: TextStyle(color: Colors.grey),
+                            ),
                             Text(
                               fruitName,
                               style: const TextStyle(
-                                fontSize: 28, 
+                                fontSize: 28,
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.greenDark
+                                color: AppColors.greenDark,
                               ),
                             ),
                           ],
                         ),
                         Container(
-                          width: 60, height: 60,
+                          width: 60,
+                          height: 60,
                           alignment: Alignment.center,
                           decoration: const BoxDecoration(
                             color: AppColors.greenDark,
@@ -123,7 +135,7 @@ class ResultScreen extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 32,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -132,7 +144,13 @@ class ResultScreen extends StatelessWidget {
                     const SizedBox(height: 32),
 
                     // Freshness Bar
-                    const Text("Tingkat Kesegaran", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                    const Text(
+                      "Tingkat Kesegaran",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                     const SizedBox(height: 8),
                     Row(
                       children: [
@@ -150,14 +168,21 @@ class ResultScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Text(
                           "$freshness%",
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.greenDark),
-                        )
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.greenDark,
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     Text(
                       desc,
-                      style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant, height: 1.5),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        height: 1.5,
+                      ),
                     ),
 
                     const SizedBox(height: 40),
@@ -168,43 +193,129 @@ class ResultScreen extends StatelessWidget {
                         Expanded(
                           child: OutlinedButton(
                             onPressed: () {
-                              Navigator.popUntil(context, ModalRoute.withName(AppRoutes.SCAN_CAMERA));
+                              Navigator.popUntil(
+                                context,
+                                ModalRoute.withName(AppRoutes.SCAN_CAMERA),
+                              );
                             },
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              side: const BorderSide(color: AppColors.greenDark),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                              side: const BorderSide(
+                                color: AppColors.greenDark,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
-                            child: const Text("Scan Lagi", style: TextStyle(color: AppColors.greenDark)),
+                            child: const Text(
+                              "Scan Lagi",
+                              style: TextStyle(color: AppColors.greenDark),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 16),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {
-                              // Logic simpan ke inventory
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Disimpan ke Inventory"))
-                              );
-                              Navigator.pushNamedAndRemoveUntil(
-                                context, AppRoutes.DASHBOARD, (route) => false
-                              );
-                            },
+                            onPressed: scanProvider.isUploading
+                                ? null // 1. Matikan tombol jika sedang uploading
+                                : () async {
+                                    // 2. Logika Simpan ke Cloud
+
+                                    // Hardcode jumlah stok = 1 (Nanti bisa ditambah input dialog jika mau)
+                                    int stockQty = 1;
+
+                                    // Panggil Provider untuk Upload
+                                    bool success = await context
+                                        .read<ScanProvider>()
+                                        .uploadAnalysisResult(
+                                          imagePath,
+                                          stockQty,
+                                        );
+
+                                    // Cek apakah widget masih aktif (mounted) sebelum update UI
+                                    if (context.mounted) {
+                                      if (success) {
+                                        // A. Jika Sukses:
+
+                                        // Refresh data Inventory agar buah baru langsung muncul
+                                        context
+                                            .read<InventoryProvider>()
+                                            .loadInventory();
+
+                                        // Tampilkan pesan sukses
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              "Berhasil disimpan ke Cloud!",
+                                            ),
+                                            backgroundColor:
+                                                AppColors.greenDark,
+                                          ),
+                                        );
+
+                                        // Kembali ke Dashboard (Hapus semua history screen sebelumnya)
+                                        Navigator.pushNamedAndRemoveUntil(
+                                          context,
+                                          AppRoutes.DASHBOARD,
+                                          (route) => false,
+                                        );
+                                      } else {
+                                        // B. Jika Gagal:
+
+                                        // Ambil pesan error dari provider
+                                        String errMessage =
+                                            scanProvider.uploadError ??
+                                            "Gagal menyimpan data.";
+
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(errMessage),
+                                            backgroundColor: AppColors.error,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.greenDark,
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              disabledBackgroundColor:
+                                  Colors.grey, // Warna saat disabled
                             ),
-                            child: const Text("Simpan", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                            // 3. UI Kondisional: Teks "Simpan" atau Loading Spinner
+                            child: scanProvider.isUploading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2.5,
+                                    ),
+                                  )
+                                : const Text(
+                                    "Simpan ke Cloud",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
                           ),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               );
             },
-          )
+          ),
         ],
       ),
     );

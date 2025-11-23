@@ -39,15 +39,12 @@ class _InventoryScreenState extends State<InventoryScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Inventory Buah",
-                        style: AppTextStyles.headlineBold,
-                      ),
+                      Text("Inventory Buah", style: AppTextStyles.headlineBold),
                       Text(
                         "Daftar buah yang Anda simpan",
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                       ),
                     ],
                   ),
@@ -55,7 +52,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     Icons.notifications_active,
                     color: AppColors.greenOlive,
                     size: 28,
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
@@ -66,7 +63,8 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     : ListView.separated(
                         padding: const EdgeInsets.only(bottom: 100),
                         itemCount: inventoryList.length,
-                        separatorBuilder: (context, index) => const SizedBox(height: 16),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 16),
                         itemBuilder: (context, index) {
                           return _buildFruitCard(context, inventoryList[index]);
                         },
@@ -87,7 +85,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
           Icon(
             Icons.inventory_2_outlined,
             size: 80,
-            color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+            color: Theme.of(
+              context,
+            ).colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
           ),
           const SizedBox(height: 16),
           Text(
@@ -129,7 +129,11 @@ class _InventoryScreenState extends State<InventoryScreen> {
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
         onTap: () {
-          Navigator.pushNamed(context, AppRoutes.FRUIT_DETAIL, arguments: fruit);
+          Navigator.pushNamed(
+            context,
+            AppRoutes.FRUIT_DETAIL,
+            arguments: fruit,
+          );
         },
         child: Column(
           children: [
@@ -141,7 +145,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     width: 60,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.1),
+                      color: statusColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     alignment: Alignment.center,
@@ -161,7 +165,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       children: [
                         Text(
                           fruit.name,
-                          style: AppTextStyles.bodyLarge.copyWith(fontWeight: FontWeight.bold),
+                          style: AppTextStyles.bodyLarge.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -172,7 +178,10 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: statusColor,
                       borderRadius: BorderRadius.circular(8),
@@ -189,19 +198,29 @@ class _InventoryScreenState extends State<InventoryScreen> {
                 ],
               ),
             ),
-            
-            Divider(height: 1, color: Theme.of(context).dividerColor.withOpacity(0.2)),
+
+            Divider(
+              height: 1,
+              color: Theme.of(context).dividerColor.withValues(alpha: 0.2),
+            ),
 
             InkWell(
               onTap: () {
-                Navigator.pushNamed(context, AppRoutes.FRUIT_ANALYSIS, arguments: fruit);
+                Navigator.pushNamed(
+                  context,
+                  AppRoutes.FRUIT_ANALYSIS,
+                  arguments: fruit,
+                );
               },
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(16),
                 bottomRight: Radius.circular(16),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: const [
@@ -214,7 +233,11 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       ),
                     ),
                     SizedBox(width: 8),
-                    Icon(Icons.auto_awesome, size: 16, color: AppColors.greenDark),
+                    Icon(
+                      Icons.auto_awesome,
+                      size: 16,
+                      color: AppColors.greenDark,
+                    ),
                   ],
                 ),
               ),

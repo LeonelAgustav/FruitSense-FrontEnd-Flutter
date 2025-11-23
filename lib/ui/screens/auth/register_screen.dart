@@ -13,7 +13,6 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  
   @override
   void initState() {
     super.initState();
@@ -35,18 +34,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                AppConstants.fruitsense,
-                width: 220,
-                height: 220,
-              ),
-              
+              Image.asset(AppConstants.fruitsense, width: 220, height: 220),
+
               const SizedBox(height: 20),
 
               Card(
                 elevation: 8,
-                shadowColor: Colors.black.withOpacity(0.2),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                shadowColor: Colors.black.withValues(alpha: 0.2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
                 color: theme.cardColor,
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
@@ -64,14 +61,23 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Full Name Input
                       TextField(
-                        onChanged: (value) => authProvider.setRegFullName(value),
+                        onChanged: (value) =>
+                            authProvider.setRegFullName(value),
                         decoration: InputDecoration(
                           labelText: "Nama Lengkap",
-                          prefixIcon: Icon(Icons.person, color: theme.colorScheme.onSurfaceVariant),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppColors.greenDark, width: 2),
+                            borderSide: const BorderSide(
+                              color: AppColors.greenDark,
+                              width: 2,
+                            ),
                           ),
                           errorText: authProvider.regFullNameError,
                         ),
@@ -84,11 +90,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: "Email",
-                          prefixIcon: Icon(Icons.email, color: theme.colorScheme.onSurfaceVariant),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          prefixIcon: Icon(
+                            Icons.email,
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppColors.greenDark, width: 2),
+                            borderSide: const BorderSide(
+                              color: AppColors.greenDark,
+                              width: 2,
+                            ),
                           ),
                           errorText: authProvider.regEmailError,
                         ),
@@ -97,19 +111,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Password Input
                       TextField(
-                        onChanged: (value) => authProvider.setRegPassword(value),
+                        onChanged: (value) =>
+                            authProvider.setRegPassword(value),
                         obscureText: !authProvider.isRegPasswordVisible,
                         decoration: InputDecoration(
                           labelText: "Password",
-                          prefixIcon: Icon(Icons.lock, color: theme.colorScheme.onSurfaceVariant),
-                          suffixIcon: IconButton(
-                            icon: Icon(authProvider.isRegPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                            onPressed: () => authProvider.toggleRegPasswordVisibility(),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              authProvider.isRegPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () =>
+                                authProvider.toggleRegPasswordVisibility(),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppColors.greenDark, width: 2),
+                            borderSide: const BorderSide(
+                              color: AppColors.greenDark,
+                              width: 2,
+                            ),
                           ),
                           errorText: authProvider.regPasswordError,
                         ),
@@ -118,19 +146,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                       // Confirm Password Input
                       TextField(
-                        onChanged: (value) => authProvider.setRegConfirmPassword(value),
+                        onChanged: (value) =>
+                            authProvider.setRegConfirmPassword(value),
                         obscureText: !authProvider.isRegConfirmPasswordVisible,
                         decoration: InputDecoration(
                           labelText: "Konfirmasi Password",
-                          prefixIcon: Icon(Icons.lock, color: theme.colorScheme.onSurfaceVariant),
-                          suffixIcon: IconButton(
-                            icon: Icon(authProvider.isRegConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                            onPressed: () => authProvider.toggleRegConfirmPasswordVisibility(),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              authProvider.isRegConfirmPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () => authProvider
+                                .toggleRegConfirmPasswordVisibility(),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppColors.greenDark, width: 2),
+                            borderSide: const BorderSide(
+                              color: AppColors.greenDark,
+                              width: 2,
+                            ),
                           ),
                           errorText: authProvider.regConfirmPasswordError,
                         ),
@@ -145,7 +187,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           onPressed: () {
                             if (authProvider.validateRegister()) {
                               // Navigasi ke Email Verification
-                              Navigator.pushNamed(context, AppRoutes.EMAIL_VERIFICATION);
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.EMAIL_VERIFICATION,
+                              );
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -156,7 +201,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                           child: const Text(
                             "Daftar",
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),
@@ -167,15 +216,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text("Sudah punya akun? ", style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 16)),
+                          Text(
+                            "Sudah punya akun? ",
+                            style: TextStyle(
+                              color: theme.colorScheme.onSurfaceVariant,
+                              fontSize: 16,
+                            ),
+                          ),
                           GestureDetector(
                             onTap: () {
-                               // Kembali ke halaman Login (pop)
-                               Navigator.pop(context);
+                              // Kembali ke halaman Login (pop)
+                              Navigator.pop(context);
                             },
                             child: const Text(
                               "Masuk",
-                              style: TextStyle(color: AppColors.greenOlive, fontWeight: FontWeight.bold, fontSize: 16),
+                              style: TextStyle(
+                                color: AppColors.greenOlive,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
                             ),
                           ),
                         ],

@@ -1,48 +1,64 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 import '../api/api_service.dart';
-import '../models/inventory_models.dart'; // Pastikan model ini ada (FruitItem)
+import '../models/inventory_models.dart';
 
 class FruitRepository {
   final ApiService _apiService = ApiService();
 
-  // 1. Ambil semua data buah (Inventory)
-  Future<List<dynamic>> getFruits() async {
+  // 1. GET INVENTORY
+  Future<List<FruitItem>> getInventoryList() async {
     try {
-      final response = await _apiService.getInventories();
-      // Asumsi response backend: { "data": [ ...list buah... ] }
-      // Nanti kita mapping ke Model di sini
-      return response['data']; 
+      final List<dynamic> responseData = await _apiService.getInventories();
+      // Pastikan mapping tipe datanya eksplisit
+      return responseData
+          .map<FruitItem>((json) => FruitItem.fromJson(json))
+          .toList();
     } catch (e) {
-      throw Exception('Gagal mengambil data buah: $e');
+      print("Repo GetInventory Error: $e");
+      return [];
     }
   }
 
-  // 2. Tambah buah baru + Upload Gambar
-  Future<bool> addFruit(String name, String stock, String price, File imageFile) async {
+  // 2. GET HISTORY
+  Future<List<FruitItem>> getHistoryList() async {
     try {
-      // Siapkan data text yang dibutuhkan backend
-      Map<String, String> textData = {
-        'name': name,
-        'stock': stock,
-        'price': price,
-        // Tambahkan field lain sesuai database Anda (misal: category, dll)
-      };
+      final response = await _apiService.getHistory();
+      final List<dynamic> data = response['data'];
 
-      await _apiService.createInventory(textData, imageFile);
-      return true; // Berhasil
+      // FIX ERROR 1 & 2: Tambahkan <FruitItem> dan parameter dateAdded
+      return data.map<FruitItem>((json) {
+        return FruitItem(
+          id: json['id'].toString(),
+          name: json['fruit_name'] ?? 'Unknown',
+          imageUri: json['image_url'],
+          grade: json['grade'] ?? '-',
+          stock: 0,
+          aiDescription: json['result_summary'] ?? '',
+          storageAdvice: '',
+          // Konversi created_at ke timestamp untuk expiryDate (sebagai placeholder)
+          expiryDate: DateTime.parse(json['created_at']).millisecondsSinceEpoch,
+          // FIX: Parameter dateAdded wajib diisi (ambil dari created_at)
+          dateAdded: DateTime.parse(json['created_at']).millisecondsSinceEpoch,
+          freshness: (json['grade'] == 'A')
+              ? 90
+              : (json['grade'] == 'B' ? 70 : 40),
+          recipes: [],
+        );
+      }).toList();
     } catch (e) {
-      print("Repository Error: $e");
-      return false; // Gagal
+      print("Repo GetHistory Error: $e");
+      return [];
     }
   }
 
-  // 3. Hapus buah
-  Future<bool> deleteFruit(String id) async {
+  // 3. UPLOAD & ANALYZE
+  Future<bool> uploadAndAnalyze(File image, int stock) async {
     try {
-      await _apiService.deleteInventory(id);
+      await _apiService.analyzeAndSave(image, stock);
       return true;
     } catch (e) {
-      print("Gagal hapus: $e");
       return false;
     }
   }

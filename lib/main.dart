@@ -5,12 +5,12 @@ import 'package:workmanager/workmanager.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'core/theme/app_theme.dart';
-import 'core/utils/notification_helper.dart'; 
+import 'core/utils/notification_helper.dart';
 import 'ui/screens/auth/auth_provider.dart';
 import 'ui/screens/dashboard/profile/profile_provider.dart';
 import 'ui/screens/dashboard/history/history_provider.dart';
 import 'ui/screens/dashboard/inventory/inventory_provider.dart';
-import 'ui/screens/dashboard/scan/scan_provider.dart'; 
+import 'ui/screens/dashboard/scan/scan_provider.dart';
 
 import 'routes/app_pages.dart';
 import 'routes/app_routes.dart';
@@ -26,30 +26,29 @@ void callbackDispatcher() {
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // --- SETUP BACKGROUND SERVICE ---
   try {
     if (Platform.isAndroid || Platform.isIOS) {
+      // FIX: Hapus isInDebugMode, gunakan kDebugMode jika perlu logic khusus
       await Workmanager().initialize(
         callbackDispatcher,
-        isInDebugMode: true 
+        // Logging otomatis diatur oleh Workmanager di mode debug
       );
-      
+
       await Workmanager().registerPeriodicTask(
         "FruitExpiryCheck",
         "FruitExpiryCheckTask",
         frequency: const Duration(hours: 12),
-        existingWorkPolicy: ExistingPeriodicWorkPolicy.keep, 
+        existingWorkPolicy: ExistingPeriodicWorkPolicy.keep,
       );
     }
   } catch (e) {
-    print("Workmanager initialization failed (normal di Windows/Simulator): $e");
+    debugPrint("Workmanager init failed: $e");
   }
 
-  // --- SETUP NOTIFICATION ---
   try {
-    await NotificationHelper.initialize(); 
+    await NotificationHelper.initialize();
   } catch (e) {
-    print("Notification initialization failed: $e");
+    debugPrint("Notification init failed: $e");
   }
 
   runApp(const FruitSenseApp());
@@ -63,7 +62,6 @@ class FruitSenseApp extends StatefulWidget {
 }
 
 class _FruitSenseAppState extends State<FruitSenseApp> {
-
   @override
   void initState() {
     super.initState();
@@ -72,10 +70,7 @@ class _FruitSenseAppState extends State<FruitSenseApp> {
 
   Future<void> _requestPermissions() async {
     if (Platform.isAndroid || Platform.isIOS) {
-      await [
-        Permission.notification,
-        Permission.camera,
-      ].request();
+      await [Permission.notification, Permission.camera].request();
     }
   }
 
@@ -86,23 +81,23 @@ class _FruitSenseAppState extends State<FruitSenseApp> {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => HistoryProvider()),
         ChangeNotifierProvider(create: (_) => InventoryProvider()),
-        ChangeNotifierProvider(create: (_) => ScanProvider()), 
-        ChangeNotifierProvider(create: (_) => ProfileProvider()..loadTheme()), 
+        ChangeNotifierProvider(create: (_) => ScanProvider()),
+        ChangeNotifierProvider(create: (_) => ProfileProvider()..loadTheme()),
       ],
       child: Consumer<ProfileProvider>(
         builder: (context, profileProvider, child) {
           return MaterialApp(
             title: 'FruitSense',
             debugShowCheckedModeBanner: false,
-            
+
             // Theme Configuration
-            themeMode: profileProvider.themeMode, 
-            theme: AppTheme.lightTheme, 
+            themeMode: profileProvider.themeMode,
+            theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
 
             // Navigation
-            initialRoute: AppRoutes.LOGIN, 
-            onGenerateRoute: AppPages.generateRoute, 
+            initialRoute: AppRoutes.LOGIN,
+            onGenerateRoute: AppPages.generateRoute,
           );
         },
       ),

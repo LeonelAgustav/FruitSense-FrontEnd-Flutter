@@ -1,42 +1,60 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import '../../../../data/local/user_preferences.dart';
+import '../../../../data/api/api_service.dart';
+import '../../../../data/models/auth_models.dart';
 
 class ProfileProvider extends ChangeNotifier {
   final UserPreferences _prefs = UserPreferences();
-  
-  // State Tema
+  final ApiService _apiService = ApiService();
+
+  UserData? _user;
+  UserData? get user => _user;
+
+  // State Tema & Notif
   ThemeMode _themeMode = ThemeMode.system;
   ThemeMode get themeMode => _themeMode;
 
-  // State Notifikasi
   bool _pushNotificationEnabled = true;
   bool get pushNotificationEnabled => _pushNotificationEnabled;
 
   bool _vibrationEnabled = false;
   bool get vibrationEnabled => _vibrationEnabled;
 
-  // Init: Load semua preferensi saat app jalan
   Future<void> loadTheme() async {
-    await _prefs.init(); // Pastikan prefs siap
-    
-    // Load Tema
+    await _prefs.init();
     final savedTheme = _prefs.getTheme();
     _updateThemeMode(savedTheme);
 
-    // Load Notifikasi
     _pushNotificationEnabled = _prefs.getPushNotification();
     _vibrationEnabled = _prefs.getVibration();
-    
+
+    // Load data user juga saat start
+    loadUserProfile();
+
     notifyListeners();
   }
 
-  // Update Tema
+  // 🔥 FETCH DATA USER DARI BACKEND 🔥
+  Future<void> loadUserProfile() async {
+    try {
+      final response = await _apiService.getProfile();
+      // Response: { "user": { "id": "...", "name": "...", "avatar_url": "..." } }
+      if (response['user'] != null) {
+        _user = UserData.fromJson(response['user']);
+        notifyListeners();
+      }
+    } catch (e) {
+      print("Gagal load profile: $e");
+    }
+  }
+
   void updateTheme(String newTheme) {
     _prefs.saveTheme(newTheme);
     _updateThemeMode(newTheme);
   }
 
-  // Update Notifikasi
   void updatePushNotification(bool value) {
     _pushNotificationEnabled = value;
     _prefs.savePushNotification(value);

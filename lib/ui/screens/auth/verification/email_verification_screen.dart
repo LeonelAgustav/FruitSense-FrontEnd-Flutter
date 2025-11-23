@@ -1,3 +1,5 @@
+// ignore_for_file: unused_field
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../../../../core/constants/app_constants.dart';
@@ -8,7 +10,8 @@ class EmailVerificationScreen extends StatefulWidget {
   const EmailVerificationScreen({super.key});
 
   @override
-  State<EmailVerificationScreen> createState() => _EmailVerificationScreenState();
+  State<EmailVerificationScreen> createState() =>
+      _EmailVerificationScreenState();
 }
 
 class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
@@ -92,7 +95,11 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 AppConstants.fruitsense,
                 width: 150,
                 height: 150,
-                errorBuilder: (context, error, stackTrace) => const Icon(Icons.eco, size: 100, color: AppColors.greenDark),
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.eco,
+                  size: 100,
+                  color: AppColors.greenDark,
+                ),
               ),
               const SizedBox(height: 32),
 
@@ -131,21 +138,26 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                         if (index < _otpController.text.length) {
                           char = _otpController.text[index];
                         }
-                        
+
                         // Style logic
                         bool isFocused = index == _otpController.text.length;
                         bool isFilled = index < _otpController.text.length;
-                        Color borderColor = _isError 
-                            ? theme.colorScheme.error 
-                            : (isFocused || isFilled ? AppColors.greenDark : theme.colorScheme.outline);
-                        
+                        Color borderColor = _isError
+                            ? theme.colorScheme.error
+                            : (isFocused || isFilled
+                                  ? AppColors.greenDark
+                                  : theme.colorScheme.outline);
+
                         return Container(
                           width: 45,
                           height: 56,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: theme.colorScheme.surface,
-                            border: Border.all(color: borderColor, width: isFocused ? 2 : 1),
+                            border: Border.all(
+                              color: borderColor,
+                              width: isFocused ? 2 : 1,
+                            ),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
@@ -153,7 +165,9 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: _isError ? theme.colorScheme.error : theme.colorScheme.onSurface,
+                              color: _isError
+                                  ? theme.colorScheme.error
+                                  : theme.colorScheme.onSurface,
                             ),
                           ),
                         );
@@ -186,7 +200,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                 const SizedBox(height: 8),
                 Text(
                   "Kode verifikasi salah",
-                  style: TextStyle(color: theme.colorScheme.error, fontSize: 14),
+                  style: TextStyle(
+                    color: theme.colorScheme.error,
+                    fontSize: 14,
+                  ),
                 ),
               ],
 
@@ -196,7 +213,10 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
               if (_timeLeft > 0)
                 Text(
                   "Kirim ulang kode dalam 00:${_timeLeft.toString().padLeft(2, '0')}",
-                  style: TextStyle(color: theme.colorScheme.onSurfaceVariant, fontSize: 14),
+                  style: TextStyle(
+                    color: theme.colorScheme.onSurfaceVariant,
+                    fontSize: 14,
+                  ),
                 )
               else
                 TextButton(
@@ -229,7 +249,11 @@ class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
                   ),
                   child: const Text(
                     "Verifikasi",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

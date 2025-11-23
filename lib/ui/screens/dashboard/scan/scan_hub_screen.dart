@@ -21,13 +21,13 @@ class ScanHubScreen extends StatelessWidget {
   Future<void> _handleGalleryClick(BuildContext context) async {
     final ImagePicker picker = ImagePicker();
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    
+
     if (image != null && context.mounted) {
       // Kirim path gambar ke Preview Screen
       Navigator.pushNamed(
-        context, 
-        AppRoutes.SCAN_PREVIEW, 
-        arguments: image.path
+        context,
+        AppRoutes.SCAN_PREVIEW,
+        arguments: image.path,
       );
     }
   }
@@ -45,7 +45,7 @@ class ScanHubScreen extends StatelessWidget {
               width: 160,
               height: 160,
               decoration: BoxDecoration(
-                color: AppColors.greenDark.withOpacity(0.1),
+                color: AppColors.greenDark.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(32),
               ),
               child: const Icon(
@@ -65,7 +65,7 @@ class ScanHubScreen extends StatelessWidget {
             Text(
               "Scan buahmu sekarang untuk mengetahui kualitas dan kesegarannya secara instan.",
               style: AppTextStyles.bodyLarge.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
               textAlign: TextAlign.center,
             ),
@@ -91,10 +91,10 @@ class ScanHubScreen extends StatelessWidget {
                     Text(
                       "Mulai Scan Kamera",
                       style: TextStyle(
-                        fontSize: 16, 
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white
-                      )
+                        color: Colors.white,
+                      ),
                     ),
                   ],
                 ),
@@ -109,7 +109,10 @@ class ScanHubScreen extends StatelessWidget {
               child: OutlinedButton(
                 onPressed: () => _handleGalleryClick(context),
                 style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: AppColors.greenDark, width: 1.5),
+                  side: const BorderSide(
+                    color: AppColors.greenDark,
+                    width: 1.5,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
@@ -122,10 +125,10 @@ class ScanHubScreen extends StatelessWidget {
                     Text(
                       "Pilih dari Galeri",
                       style: TextStyle(
-                        fontSize: 16, 
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
-                        color: AppColors.greenDark
-                      )
+                        color: AppColors.greenDark,
+                      ),
                     ),
                   ],
                 ),

@@ -1,50 +1,37 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import '../../../../data/models/inventory_models.dart';
+import '../../../../data/repositories/fruit_repository.dart';
 
 class HistoryProvider extends ChangeNotifier {
+  final FruitRepository _repository = FruitRepository();
+
   List<FruitItem> _historyList = [];
   List<FruitItem> get historyList => _historyList;
 
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   HistoryProvider() {
-    loadMockHistory();
+    loadHistory();
   }
 
-  void loadMockHistory() {
-    final currentTime = DateTime.now().millisecondsSinceEpoch;
-    const dayInMillis = 86400000;
+  Future<void> loadHistory() async {
+    _isLoading = true;
+    notifyListeners();
 
-    // Data Dummy History (mirip Inventory tapi expiredDate 0 atau masa lampau)
-    _historyList = [
-      FruitItem(
-        id: "1", 
-        name: "Pisang Cavendish", 
-        dateAdded: currentTime, 
-        expiryDate: 0, 
-        freshness: 40, 
-        grade: "B"
-      ),
-      FruitItem(
-        id: "2", 
-        name: "Apel Fuji", 
-        dateAdded: currentTime - (1 * dayInMillis), 
-        expiryDate: 0, 
-        freshness: 85, 
-        grade: "A"
-      ),
-      FruitItem(
-        id: "3", 
-        name: "Jeruk Mandarin", 
-        dateAdded: currentTime - (2 * dayInMillis), 
-        expiryDate: 0, 
-        freshness: 60, 
-        grade: "B"
-      ),
-    ];
+    try {
+      _historyList = await _repository.getHistoryList();
+    } catch (e) {
+      print("Gagal load history: $e");
+    }
+
+    _isLoading = false;
     notifyListeners();
   }
-  
-  void addToHistory(FruitItem item) {
-    _historyList.insert(0, item);
-    notifyListeners();
+
+  Future<void> refresh() async {
+    await loadHistory();
   }
 }

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -9,7 +11,7 @@ class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profileProvider = context.watch<ProfileProvider>();
-    
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Notifikasi"),
@@ -26,7 +28,9 @@ class NotificationScreen extends StatelessWidget {
           const Text(
             "Preferensi",
             style: TextStyle(
-              fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.greenDark
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: AppColors.greenDark,
             ),
           ),
           const SizedBox(height: 16),
@@ -73,19 +77,25 @@ class NotificationScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: theme.cardColor,
-        border: Border.all(color: theme.dividerColor.withOpacity(0.5)),
+        border: Border.all(color: theme.dividerColor.withValues(alpha: 0.5)),
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 4, offset: const Offset(0, 2))
-        ]
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.02),
+            blurRadius: 4,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: value ? AppColors.greenDark.withOpacity(0.1) : Colors.grey[100],
-              borderRadius: BorderRadius.circular(12)
+              color: value
+                  ? AppColors.greenDark.withValues(alpha: 0.1)
+                  : Colors.grey[100],
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               icon,
@@ -100,7 +110,10 @@ class NotificationScreen extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
                 ),
                 Text(
                   subtitle,
@@ -112,7 +125,14 @@ class NotificationScreen extends StatelessWidget {
           Switch(
             value: value,
             onChanged: onChanged,
-            activeColor: AppColors.greenDark,
+            // FIX: Menggunakan thumbColor dengan WidgetStateProperty untuk modern Flutter
+            thumbColor: WidgetStateProperty.resolveWith<Color>((states) {
+              if (states.contains(WidgetState.selected)) {
+                return AppColors.greenDark;
+              }
+              return Colors.white;
+            }),
+            activeTrackColor: AppColors.greenDark.withValues(alpha: 0.5),
           ),
         ],
       ),

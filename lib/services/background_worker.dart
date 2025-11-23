@@ -1,9 +1,11 @@
-import 'package:workmanager/workmanager.dart';
 import '../core/utils/notification_helper.dart';
 
 class BackgroundWorker {
   // Tambahkan method static ini
-  static Future<bool> executeTask(String task, Map<String, dynamic>? inputData) async {
+  static Future<bool> executeTask(
+    String task,
+    Map<String, dynamic>? inputData,
+  ) async {
     switch (task) {
       case "FruitExpiryCheckTask":
         // Simulasi background task

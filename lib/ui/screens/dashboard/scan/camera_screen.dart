@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
@@ -56,16 +58,16 @@ class _CameraScreenState extends State<CameraScreen> {
 
     try {
       setState(() => _isProcessing = true);
-      
+
       final image = await _controller!.takePicture();
-      
+
       // Lakukan proses ML (Opsional disini atau di Result)
       // Kita kirim path gambar ke Preview Screen dulu
       if (mounted) {
         Navigator.pushNamed(
-          context, 
-          AppRoutes.SCAN_PREVIEW, 
-          arguments: image.path
+          context,
+          AppRoutes.SCAN_PREVIEW,
+          arguments: image.path,
         );
       }
     } catch (e) {
@@ -87,7 +89,9 @@ class _CameraScreenState extends State<CameraScreen> {
     if (!_isCameraInitialized) {
       return const Scaffold(
         backgroundColor: Colors.black,
-        body: Center(child: CircularProgressIndicator(color: AppColors.greenDark)),
+        body: Center(
+          child: CircularProgressIndicator(color: AppColors.greenDark),
+        ),
       );
     }
 
@@ -161,13 +165,13 @@ class _CameraScreenState extends State<CameraScreen> {
               ),
             ),
           ),
-          
+
           // Loading Indicator jika sedang proses
           if (_isProcessing)
             Container(
               color: Colors.black54,
               child: const Center(child: CircularProgressIndicator()),
-            )
+            ),
         ],
       ),
     );
@@ -178,9 +182,9 @@ class _CameraScreenState extends State<CameraScreen> {
       child: Column(
         children: [
           const Spacer(),
-          Divider(color: Colors.white.withOpacity(0.3), thickness: 1),
+          Divider(color: Colors.white.withValues(alpha: 0.3), thickness: 1),
           const Spacer(),
-          Divider(color: Colors.white.withOpacity(0.3), thickness: 1),
+          Divider(color: Colors.white.withValues(alpha: 0.3), thickness: 1),
           const Spacer(),
         ],
       ),

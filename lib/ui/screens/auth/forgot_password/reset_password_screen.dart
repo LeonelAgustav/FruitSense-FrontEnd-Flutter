@@ -13,7 +13,6 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
-  
   @override
   void initState() {
     super.initState();
@@ -39,14 +38,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 AppConstants.fruitsense,
                 width: 180,
                 height: 180,
-                errorBuilder: (context, error, stackTrace) => const Icon(Icons.eco, size: 100, color: AppColors.greenDark),
+                errorBuilder: (context, error, stackTrace) => const Icon(
+                  Icons.eco,
+                  size: 100,
+                  color: AppColors.greenDark,
+                ),
               ),
               const SizedBox(height: 24),
 
               Card(
                 elevation: 8,
-                shadowColor: Colors.black.withOpacity(0.2),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                shadowColor: Colors.black.withValues(alpha: 0.2),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24),
+                ),
                 color: theme.cardColor,
                 child: Padding(
                   padding: const EdgeInsets.all(24.0),
@@ -74,19 +79,33 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                       // Password Baru
                       TextField(
-                        onChanged: (value) => authProvider.setResetPassword(value),
+                        onChanged: (value) =>
+                            authProvider.setResetPassword(value),
                         obscureText: !authProvider.isResetPasswordVisible,
                         decoration: InputDecoration(
                           labelText: "Password Baru",
-                          prefixIcon: Icon(Icons.lock, color: theme.colorScheme.onSurfaceVariant),
-                          suffixIcon: IconButton(
-                            icon: Icon(authProvider.isResetPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                            onPressed: () => authProvider.toggleResetPasswordVisibility(),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              authProvider.isResetPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () =>
+                                authProvider.toggleResetPasswordVisibility(),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppColors.greenDark, width: 2),
+                            borderSide: const BorderSide(
+                              color: AppColors.greenDark,
+                              width: 2,
+                            ),
                           ),
                           errorText: authProvider.resetPasswordError,
                         ),
@@ -95,19 +114,34 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
 
                       // Konfirmasi Password
                       TextField(
-                        onChanged: (value) => authProvider.setResetConfirmPassword(value),
-                        obscureText: !authProvider.isResetConfirmPasswordVisible,
+                        onChanged: (value) =>
+                            authProvider.setResetConfirmPassword(value),
+                        obscureText:
+                            !authProvider.isResetConfirmPasswordVisible,
                         decoration: InputDecoration(
                           labelText: "Konfirmasi Password",
-                          prefixIcon: Icon(Icons.lock, color: theme.colorScheme.onSurfaceVariant),
-                          suffixIcon: IconButton(
-                            icon: Icon(authProvider.isResetConfirmPasswordVisible ? Icons.visibility : Icons.visibility_off),
-                            onPressed: () => authProvider.toggleResetConfirmPasswordVisibility(),
+                          prefixIcon: Icon(
+                            Icons.lock,
+                            color: theme.colorScheme.onSurfaceVariant,
                           ),
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              authProvider.isResetConfirmPasswordVisible
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                            ),
+                            onPressed: () => authProvider
+                                .toggleResetConfirmPasswordVisibility(),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(color: AppColors.greenDark, width: 2),
+                            borderSide: const BorderSide(
+                              color: AppColors.greenDark,
+                              width: 2,
+                            ),
                           ),
                           errorText: authProvider.resetConfirmPasswordError,
                         ),
@@ -123,21 +157,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             if (authProvider.validateResetPassword()) {
                               // Sukses, tampilkan halaman sukses
                               Navigator.pushNamed(
-                                context, 
+                                context,
                                 AppRoutes.AUTH_SUCCESS,
                                 arguments: {
                                   'title': 'Password Diubah!',
-                                  'subtitle': 'Kata sandi Anda telah berhasil diperbarui.',
+                                  'subtitle':
+                                      'Kata sandi Anda telah berhasil diperbarui.',
                                   'buttonText': 'Masuk Sekarang',
                                   'onButtonClick': () {
                                     // Reset ke halaman Login (Hapus semua stack)
                                     Navigator.pushNamedAndRemoveUntil(
-                                      context, 
-                                      AppRoutes.LOGIN, 
-                                      (route) => false
+                                      context,
+                                      AppRoutes.LOGIN,
+                                      (route) => false,
                                     );
-                                  }
-                                }
+                                  },
+                                },
                               );
                             }
                           },
@@ -149,7 +184,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           ),
                           child: const Text(
                             "Ubah Password",
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
                       ),

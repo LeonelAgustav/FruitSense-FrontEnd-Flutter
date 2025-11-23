@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, avoid_print
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_mlkit_image_labeling/google_mlkit_image_labeling.dart';
@@ -23,7 +25,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
     try {
       final InputImage inputImage = InputImage.fromFilePath(widget.imagePath);
-      final ImageLabelerOptions options = ImageLabelerOptions(confidenceThreshold: 1);
+      final ImageLabelerOptions options = ImageLabelerOptions(
+        confidenceThreshold: 1,
+      );
       final ImageLabeler labeler = ImageLabeler(options: options);
       final List<ImageLabel> labels = await labeler.processImage(inputImage);
 
@@ -35,7 +39,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
         final firstLabel = labels.first;
         detectedName = firstLabel.label;
         confidence = (firstLabel.confidence * 100).toInt();
-        
+
         if (confidence > 80) {
           desc = "Objek terdeteksi sangat jelas. Kondisi tampak baik.";
         } else {
@@ -45,29 +49,28 @@ class _PreviewScreenState extends State<PreviewScreen> {
 
       labeler.close();
 
-      if (mounted) {
-        final resultData = {
-          'imagePath': widget.imagePath,
-          'data': {
-            'name': detectedName,
-            'grade': confidence > 80 ? 'A' : (confidence > 50 ? 'B' : 'C'),
-            'freshness': confidence,
-            'desc': desc
-          }
-        };
+      if (!mounted) return;
 
-        Navigator.pushNamed(
-          context, 
-          AppRoutes.SCAN_RESULT,
-          arguments: resultData
-        );
-      }
+      final resultData = {
+        'imagePath': widget.imagePath,
+        'data': {
+          'name': detectedName,
+          'grade': confidence > 80 ? 'A' : (confidence > 50 ? 'B' : 'C'),
+          'freshness': confidence,
+          'desc': desc,
+        },
+      };
 
+      Navigator.pushNamed(
+        context,
+        AppRoutes.SCAN_RESULT,
+        arguments: resultData,
+      );
     } catch (e) {
       print("Error ML Kit: $e");
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Gagal menganalisa: $e"))
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Gagal menganalisa: $e")));
     } finally {
       if (mounted) {
         setState(() {
@@ -80,6 +83,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // ignore: unused_local_variable
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
@@ -88,10 +92,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
         children: [
           // Gambar Full
           Positioned.fill(
-            child: Image.file(
-              File(widget.imagePath),
-              fit: BoxFit.contain,
-            ),
+            child: Image.file(File(widget.imagePath), fit: BoxFit.contain),
           ),
 
           // Loading Overlay
@@ -104,7 +105,10 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   children: [
                     CircularProgressIndicator(color: AppColors.greenDark),
                     SizedBox(height: 16),
-                    Text("Sedang Menganalisa...", style: TextStyle(color: Colors.white))
+                    Text(
+                      "Sedang Menganalisa...",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ],
                 ),
               ),
@@ -118,7 +122,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.surface,
-                  borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                  borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(24),
+                  ),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -126,9 +132,9 @@ class _PreviewScreenState extends State<PreviewScreen> {
                     Text(
                       "Apakah foto sudah jelas?",
                       style: TextStyle(
-                        fontSize: 20, 
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.onSurface
+                        color: theme.colorScheme.onSurface,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -136,7 +142,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                       "Pastikan buah terlihat utuh dan cahaya cukup.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: theme.colorScheme.onSurfaceVariant
+                        color: theme.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     const SizedBox(height: 24),
@@ -148,10 +154,19 @@ class _PreviewScreenState extends State<PreviewScreen> {
                             onPressed: () => Navigator.pop(context),
                             style: OutlinedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
-                              side: BorderSide(color: theme.colorScheme.outline),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                              side: BorderSide(
+                                color: theme.colorScheme.outline,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
-                            child: Text("Ulang", style: TextStyle(color: theme.colorScheme.onSurface)),
+                            child: Text(
+                              "Ulang",
+                              style: TextStyle(
+                                color: theme.colorScheme.onSurface,
+                              ),
+                            ),
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -162,9 +177,17 @@ class _PreviewScreenState extends State<PreviewScreen> {
                             style: ElevatedButton.styleFrom(
                               padding: const EdgeInsets.symmetric(vertical: 16),
                               backgroundColor: AppColors.greenDark,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                             ),
-                            child: const Text("Analisa", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                            child: const Text(
+                              "Analisa",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -172,7 +195,7 @@ class _PreviewScreenState extends State<PreviewScreen> {
                   ],
                 ),
               ),
-            )
+            ),
         ],
       ),
     );

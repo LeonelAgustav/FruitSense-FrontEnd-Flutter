@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_text_styles.dart';
 import '../../../../routes/app_routes.dart';
+import 'profile_provider.dart';
+import 'package:provider/provider.dart';
 
 class ProfileMenuScreen extends StatelessWidget {
   const ProfileMenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Watch ProfileProvider agar UI update otomatis saat data user masuk
+    final profileProvider = context.watch<ProfileProvider>();
+    final user = profileProvider.user; // Data user asli dari backend
     final theme = Theme.of(context);
 
     return Scaffold(
@@ -21,10 +25,7 @@ class ProfileMenuScreen extends StatelessWidget {
                 children: [
                   const Text(
                     "Profil Saya",
-                    style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   Text(
@@ -37,7 +38,10 @@ class ProfileMenuScreen extends StatelessWidget {
                 ],
               ),
             ),
-            Divider(height: 1, color: theme.dividerColor.withOpacity(0.2)),
+            Divider(
+              height: 1,
+              color: theme.dividerColor.withValues(alpha: 0.2),
+            ),
 
             // 2. Account Info Section
             Padding(
@@ -51,27 +55,43 @@ class ProfileMenuScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: theme.colorScheme.surfaceContainerHighest,
+                      // Jika ada URL Avatar, tampilkan gambar
+                      image:
+                          (user?.avatarUrl != null &&
+                              user!.avatarUrl!.isNotEmpty)
+                          ? DecorationImage(
+                              image: NetworkImage(user.avatarUrl!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
                     ),
-                    child: Center(
-                      child: Icon(
-                        Icons.person,
-                        size: 60,
-                        color: AppColors.greenOlive.withOpacity(0.6),
-                      ),
-                    ),
+                    child: (user?.avatarUrl == null || user!.avatarUrl!.isEmpty)
+                        ? Center(
+                            child: Icon(
+                              Icons.person,
+                              size: 60,
+                              color: AppColors.greenOlive.withValues(
+                                alpha: 0.6,
+                              ),
+                            ),
+                          )
+                        : null,
                   ),
                   const SizedBox(height: 16),
-                  
-                  const Text(
-                    "John Doe",
-                    style: TextStyle(
+
+                  // Nama User (Tampilkan Loading ... jika belum ada data)
+                  Text(
+                    user?.name ?? "Memuat...",
+                    style: const TextStyle(
                       fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 4),
+
+                  // Email User
                   Text(
-                    "johndoe@email.com",
+                    user?.email ?? "",
                     style: TextStyle(
                       fontSize: 16,
                       color: theme.colorScheme.onSurfaceVariant,
@@ -86,7 +106,9 @@ class ProfileMenuScreen extends StatelessWidget {
                     color: theme.cardColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
-                      side: BorderSide(color: theme.dividerColor.withOpacity(0.2)),
+                      side: BorderSide(
+                        color: theme.dividerColor.withValues(alpha: 0.2),
+                      ),
                     ),
                     // PENTING: Bungkus konten dalam 'child'
                     child: Padding(
@@ -103,18 +125,23 @@ class ProfileMenuScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 12),
-                          
+
                           _buildMenuItem(
                             context,
                             icon: Icons.notifications,
                             title: "Notifikasi",
                             subtitle: "Atur preferensi notifikasi",
-                            onTap: () => Navigator.pushNamed(context, AppRoutes.PROFILE_NOTIFICATIONS),
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.PROFILE_NOTIFICATIONS,
+                            ),
                           ),
-                          
+
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 8.0),
-                            child: Divider(color: theme.dividerColor.withOpacity(0.2)),
+                            child: Divider(
+                              color: theme.dividerColor.withValues(alpha: 0.2),
+                            ),
                           ),
 
                           _buildMenuItem(
@@ -122,7 +149,10 @@ class ProfileMenuScreen extends StatelessWidget {
                             icon: Icons.settings,
                             title: "Pengaturan Aplikasi",
                             subtitle: "Bahasa, tema, dan lainnya",
-                            onTap: () => Navigator.pushNamed(context, AppRoutes.PROFILE_SETTINGS),
+                            onTap: () => Navigator.pushNamed(
+                              context,
+                              AppRoutes.PROFILE_SETTINGS,
+                            ),
                           ),
                         ],
                       ),
@@ -139,9 +169,9 @@ class ProfileMenuScreen extends StatelessWidget {
                       onPressed: () {
                         // Logout Logic: Clear prefs dan kembali ke Login
                         Navigator.pushNamedAndRemoveUntil(
-                          context, 
-                          AppRoutes.LOGIN, 
-                          (route) => false
+                          context,
+                          AppRoutes.LOGIN,
+                          (route) => false,
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -194,7 +224,7 @@ class ProfileMenuScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.greenDark.withOpacity(0.1),
+                color: AppColors.greenDark.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(icon, color: AppColors.greenDark, size: 22),
@@ -206,7 +236,10 @@ class ProfileMenuScreen extends StatelessWidget {
                 children: [
                   Text(
                     title,
-                    style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
                   ),
                   Text(
                     subtitle,
@@ -220,7 +253,9 @@ class ProfileMenuScreen extends StatelessWidget {
             ),
             Icon(
               Icons.chevron_right,
-              color: Theme.of(context).colorScheme.onSurfaceVariant.withOpacity(0.5),
+              color: Theme.of(
+                context,
+              ).colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
             ),
           ],
         ),

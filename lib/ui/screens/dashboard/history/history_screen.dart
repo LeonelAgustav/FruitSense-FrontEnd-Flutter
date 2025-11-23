@@ -21,7 +21,11 @@ class HistoryScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Icon(Icons.history, color: AppColors.greenDark, size: 28),
+                  const Icon(
+                    Icons.history,
+                    color: AppColors.greenDark,
+                    size: 28,
+                  ),
                   const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +47,8 @@ class HistoryScreen extends StatelessWidget {
                     : ListView.separated(
                         padding: const EdgeInsets.only(bottom: 100),
                         itemCount: historyList.length,
-                        separatorBuilder: (context, index) => const SizedBox(height: 12),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           return _buildHistoryCard(context, historyList[index]);
                         },
@@ -58,7 +63,8 @@ class HistoryScreen extends StatelessWidget {
 
   Widget _buildHistoryCard(BuildContext context, FruitItem item) {
     final date = DateTime.fromMillisecondsSinceEpoch(item.dateAdded);
-    final dateStr = "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute.toString().padLeft(2, '0')}";
+    final dateStr =
+        "${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute.toString().padLeft(2, '0')}";
 
     Color gradeColor;
     if (item.grade == "A") {
@@ -88,7 +94,7 @@ class HistoryScreen extends StatelessWidget {
                 width: 56,
                 height: 56,
                 decoration: BoxDecoration(
-                  color: gradeColor.withOpacity(0.1),
+                  color: gradeColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
@@ -109,13 +115,19 @@ class HistoryScreen extends StatelessWidget {
                   children: [
                     Text(
                       item.name,
-                      style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        Icon(Icons.calendar_today_outlined,
-                            size: 14, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        Icon(
+                          Icons.calendar_today_outlined,
+                          size: 14,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           dateStr,
@@ -132,7 +144,9 @@ class HistoryScreen extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
-                  color: item.freshness > 70 ? AppColors.greenDark : AppColors.error,
+                  color: item.freshness > 70
+                      ? AppColors.greenDark
+                      : AppColors.error,
                 ),
               ),
             ],
