@@ -49,6 +49,3 @@ flutter run
 *   **AI**: Google ML Kit Image Labeling
 *   **Backend**: Firebase (Messaging, Analytics)
 *   **Services**: Workmanager (Background tasks), Local Notifications
-
----
-*Built with ❤️ for FruitSense*
