@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "848546376772",
+    "project_id": "fruitsense-92594",
+    "storage_bucket": "fruitsense-92594.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848546376772:android:e5630a2d48388cdd326011",
+        "android_client_info": {
+          "package_name": "com.example.fruitsense"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgxeNjtaD-069qRJVr9SuEE56xz1PfOQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

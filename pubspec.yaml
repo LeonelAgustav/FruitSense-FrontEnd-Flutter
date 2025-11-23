@@ -1,0 +1,57 @@
+name: fruitsense
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # --- UI & Icons ---
+  cupertino_icons: ^1.0.8
+
+  # --- ML Kit Image Labeling ---
+  google_mlkit_image_labeling: ^0.14.1
+
+  # --- Kamera & Gambar ---
+  camera: ^0.11.3 
+  # Menggunakan 'image_picker' untuk ambil gambar dari galeri dengan mudah
+  image_picker: ^1.2.1
+
+  # --- Penyimpanan Lokal ---
+  shared_preferences: ^2.2.3
+
+  # --- Izin Aplikasi ---
+  permission_handler: ^12.0.1
+
+  # --- Utilitas File ---
+  path_provider: ^2.1.5
+  path: ^1.9.1
+  flutter_local_notifications: ^19.5.0
+  provider: ^6.1.5+1
+  workmanager: ^0.9.0+3
+  email_validator: ^3.0.0
+  google_fonts: ^6.3.2
+  http: ^1.2.0
+  firebase_core: ^4.2.1
+  firebase_messaging: ^16.0.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/images/fruitsense_app.png"
