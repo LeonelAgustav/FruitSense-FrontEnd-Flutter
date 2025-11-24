@@ -30,6 +30,7 @@ Create a `.env` file in the root directory with your Firebase credentials:
 FIREBASE_API_KEY=your_api_key
 FIREBASE_PROJECT_ID=your_project_id
 FIREBASE_APP_ID=your_app_id
+FIREBASE_PROJECT_NUMBER=your_project_number
 ```
 
 ### 3. Build Config
